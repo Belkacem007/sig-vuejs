@@ -15,7 +15,9 @@ const userData = ref<User>()
 
 onMounted(async () => {
     try {
-        const { data } = await useFetch('https://randomuser.me/api/?' + route.params.id).json()
+        const { data } = await useFetch('https://randomuser.me/api/?' + route.params.id, {
+            refetch: true
+        }).json()
         userData.value = data.value.results[0]
 
     } catch (error) {
@@ -38,8 +40,10 @@ onMounted(async () => {
                     </v-btn>
                 </RouterLink>
 
+                <div v-if="userData">
+                    <CardUserDetail :userData="userData" />
+                </div>
 
-                <CardUserDetail :userData="userData" />
 
             </v-col>
         </v-row>
